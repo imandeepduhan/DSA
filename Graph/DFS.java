@@ -2,8 +2,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DFS {
-    public static ArrayList<Integer> dfs(int node, ArrayList<ArrayList<Integer>> adj, ArrayList<Integer> ls,
-            boolean[] visited) {
+    public static ArrayList<Integer> dfs(int node, ArrayList<ArrayList<Integer>> adj, ArrayList<Integer> ls, boolean[] visited) {
         int num = node;
         visited[num] = true;
         ls.add(num);
