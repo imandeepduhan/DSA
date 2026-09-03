@@ -1,0 +1,97 @@
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class BipartiteBFS {
+
+    private static boolean check(int start, int v, ArrayList<ArrayList<Integer>> adj , int[] color) {
+        Queue<Integer> q = new LinkedList<>();
+        q.add(start);
+        color[start] = 0;
+
+        while (!q.isEmpty()) {
+            
+            int node = q.peek();
+            q.remove();
+
+            for(int it: adj.get(node)) {
+                if(color[it] == -1) {
+                    color[it] = 1 - color[node];
+                    q.add(it);
+                } else if (color[it] == color[node]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public static boolean isBipartite(int v, ArrayList<ArrayList<Integer>> adj) {
+        int[] color = new int[v];
+        for(int i = 0; i < v; i++) {
+            color[i] = -1;
+        }
+
+        for(int i = 0; i < v; i++) {
+            if(color[i] == -1) {
+                if(!check(i, v, adj , color)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+    public static void main(String[] args) {
+
+        int v = 8;
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+
+        for(int i = 0; i < v; i++) {
+            adj.add(new ArrayList<>());
+        }
+
+        /*
+        
+        1 -> 2
+        2 -> 1,3,6
+        3 -> 2,4
+        4 -> 3,5,7
+        5 -> 4,6,7
+        6 -> 2,5
+        7 -> 4,8
+        8 -> 7
+        
+        */
+
+        adj.get(0).add(1);
+
+        adj.get(1).add(0);              
+        adj.get(1).add(2);              
+        adj.get(1).add(5);              
+
+        adj.get(2).add(1);              
+        adj.get(2).add(3);              
+
+        adj.get(3).add(2);             
+        adj.get(3).add(4);             
+        adj.get(3).add(6);              
+
+        adj.get(4).add(3);              
+        adj.get(4).add(5);              
+        adj.get(4).add(6);              
+
+        adj.get(5).add(1);           
+        adj.get(5).add(4);           
+
+        adj.get(6).add(3);            
+        adj.get(6).add(7);              
+
+        adj.get(7).add(6);  
+
+        boolean answer = isBipartite(v, adj);
+
+        System.out.println("Is graph bipartite : " + answer);
+
+    }
+}
